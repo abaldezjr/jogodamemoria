@@ -138,3 +138,25 @@ body {
     box-shadow: 0 0 20px black;
     cursor: pointer;
 }
+
+#imgmatchsign {
+    position: relative;
+    top: 50px;
+    transition: top, opacity;
+    transition-duration: 5s;
+    opacity: 1;
+    visibility: hidden;
+}
+
+#modalgameover {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+}
+
+#imggameover {
+    margin-top: 100px;
+}

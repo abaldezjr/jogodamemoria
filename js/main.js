@@ -1,15 +1,20 @@
 const memoria = new Memoria();
 const player = new Player();
 
-let erros = 0, matches = 0, cartasViradas = [], indiceMusica = 0;
+let erros = 0, matches = 0, cartasViradas = [],
+    indiceMusica = segundo = minuto = hora = 0, intervalo;
 
-let modalGameOver = document.getElementById('modalgameover');
-let cards = document.getElementsByClassName('card');
-let playerView = document.getElementById('bg-music');
-let clickSound = document.getElementById('click-sound');
-let btnMudo = document.getElementById('mudo');
-let btnProxima = document.getElementById('proxima');
-let matchSound = document.getElementById("match-sound");
+let modalGameOver = document.getElementById('modalgameover'),
+    cards = document.getElementsByClassName('card'),
+    playerView = document.getElementById('bg-music'),
+    clickSound = document.getElementById('click-sound'),
+    btnMudo = document.getElementById('mudo'),
+    btnProxima = document.getElementById('proxima'),
+    matchSound = document.getElementById("match-sound"),
+    lblHora = document.getElementById("hora"),
+    lblMinuto = document.getElementById("minuto"),
+    lblSegundo = document.getElementById("segundo");
+
 
 function desenhar() {
     for (let i = 0; i < cards.length; i++) {
@@ -18,9 +23,21 @@ function desenhar() {
     }
 }
 
+function embaralhar(velhoArray) {
+    let novoArray = [];
+
+    while (novoArray.length !== velhoArray.length) {
+        let i = Math.floor((Math.random() * velhoArray.length) + 0);
+        if (novoArray.indexOf(velhoArray[i]) < 0) {
+            novoArray.push(velhoArray[i]);
+        }
+    }
+    return novoArray;
+}
+
 function inicializarCards() {
     let cartas = [];
-    cartas = memoria.escolherCartas();
+    cartas = embaralhar(memoria.escolherCartas());
     let cardFront, cardBack;
     for (let i = 0; i < cards.length; i++) {
         cardFront = cards[i].querySelector('.front');
@@ -34,6 +51,7 @@ function inicializarCards() {
 }
 
 function mostrarCarta() {
+    document.getElementById("click-sound").play();
     if (cartasViradas.length < 2) {
         var faces = this.getElementsByClassName('face');
         if (faces[0].classList.length > 2) {
@@ -73,6 +91,41 @@ function gameOver() {
     modalGameOver.addEventListener('click', startGame, false);
 }
 
+function relogio() {
+    if (segundo == 60) {
+        minuto++;
+        segundo = 0;
+    }
+
+    if (minuto == 60) {
+        hora++;
+        segundo = minuto = 0;
+    }
+
+    if (hora < 10) {
+        lblHora.innerHTML = "0" + hora;
+    } else {
+        lblHora.innerHTML = hora;
+    }
+
+    if (segundo < 10) {
+        lblSegundo.innerHTML = "0" + segundo;
+    } else {
+        lblSegundo.innerHTML = segundo;
+    }
+
+    if (minuto < 10) {
+        lblMinuto.innerHTML = "0" + minuto;
+    } else {
+        lblMinuto.innerHTML = minuto;
+    }
+    segundo++;
+}
+
+function parar() {
+    clearInterval(intervalo);
+}
+
 function placar() {
     document.getElementById('numero-erros').innerHTML = erros;
 }
@@ -83,12 +136,11 @@ function matchMsg() {
     imgMatchSign.style.visibility = 'visible';
     imgMatchSign.style.top = 50 + 'px';
     imgMatchSign.style.opacity = 0;
-    setTimeout(
-        function () {
-            imgMatchSign.style.visibility = 'hidden';
-            imgMatchSign.style.top = 0 + 'px';
-            imgMatchSign.style.opacity = 1;
-        }, 1500);
+    setTimeout(() => {
+        imgMatchSign.style.visibility = 'hidden';
+        imgMatchSign.style.top = 0 + 'px';
+        imgMatchSign.style.opacity = 1;
+    }, 1500);
 }
 
 function mudo() {
@@ -112,16 +164,16 @@ function proxima() {
 }
 
 function startGame() {
-    matches = 0;
-    erros = 0;
+    matches = erros = segundo = minuto = hora = 0;
     cartasViradas = [];
+    intervalo = window.setInterval(() => relogio(), 1000);
 
     clickSound.volume = 0.5;
     btnMudo.addEventListener("click", mudo, false);
     btnProxima.addEventListener("click", proxima, false);
 
     inicializarCards();
-    
+
     modalGameOver.style.visibility = 'hidden';
     modalGameOver.removeEventListener('click', startGame, false);
 }

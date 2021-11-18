@@ -45,7 +45,7 @@ class Memoria {
         while (novoArray.length != 16) {
             let i = Math.floor((Math.random() * this.cartas.length) + 0);
     
-            if (novoArray.indexOf(cartas[i]) < 0) {
+            if (novoArray.indexOf(this.cartas[i]) < 0) {
                 let objTemp = new Carta(
                     this.cartas[i].id, 
                     this.cartas[i].src,

@@ -88,6 +88,7 @@ function mostrarCarta() {
 
 function gameOver() {
     modalGameOver.style.visibility = 'visible';
+    modalGameOver.querySelector('img').style.visibility = 'visible';
     modalGameOver.addEventListener('click', startGame, false);
 }
 
@@ -132,14 +133,16 @@ function placar() {
 
 function matchMsg() {
     matchSound.play();
-    let imgMatchSign = document.getElementById('imgmatchsign');
-    imgMatchSign.style.visibility = 'visible';
-    imgMatchSign.style.top = 50 + 'px';
-    imgMatchSign.style.opacity = 0;
+    let divMatchSign = document.getElementById('imgmatchsign');
+    divMatchSign.style.visibility = 'visible';
+    divMatchSign.querySelector('img').style.visibility = 'visible';
+    divMatchSign.querySelector('img').style.top = 50 + 'px';
+    divMatchSign.querySelector('img').style.opacity = 0;
     setTimeout(() => {
-        imgMatchSign.style.visibility = 'hidden';
-        imgMatchSign.style.top = 0 + 'px';
-        imgMatchSign.style.opacity = 1;
+        divMatchSign.style.visibility = 'hidden';
+        divMatchSign.querySelector('img').style.visibility = 'hidden';
+        divMatchSign.querySelector('img').style.top = 0 + 'px';
+        divMatchSign.querySelector('img').style.opacity = 1;
     }, 1500);
 }
 
@@ -173,7 +176,7 @@ function startGame() {
     btnProxima.addEventListener("click", proxima, false);
 
     inicializarCards();
-
+    modalGameOver.querySelector('img').style.visibility = 'hidden';
     modalGameOver.style.visibility = 'hidden';
     modalGameOver.removeEventListener('click', startGame, false);
 }

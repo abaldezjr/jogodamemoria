@@ -8,97 +8,39 @@ body {
     background: url('../img/jogo/header_footer_bg.gif');
     padding: 0px;
     margin: 0px;
-    text-align: center;
 }
 
-#todo {
-    float: left;
+/* ESTRUTURA */
+div#app {
     width: 100%;
     height: 100%;
 }
 
-#container {
-    width: 1325px;
-    height: 495px;
-    position: relative;
+div#container {
+    float: left;
+    position: absolute;
+    left:10px;
     margin: 10px auto;
-    border-radius: 10px;
 }
 
-#painelJogo {
+div#painelJogador {
     float: left;
+    position: absolute;
     background-color: #1D3D6F;
     width: 100%;
     height: 20%;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
     margin: 0px;
+    bottom: 0px;
     border-top: 5px #FCCE21 dashed;
 }
 
-#jogador {
-    float: left;
-    color: white;
-    width: 200px;
-    margin: 20px 50px;
-    padding: 5px 30px;
-    background-color: #081B38;
-    border-radius: 20px;
-    text-align: center;
-    border: 2px solid #FCCE21;
-    font-size: 50px;
-    box-shadow: 3px 3px black;
-    font-family: Impact, Charcoal, sans-serif
+div#modalgameover {
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
 }
 
-#tempo {
-    float: left;
-    color: white;
-    margin: 20px 50px;
-    width: 180px;
-    padding: 5px 30px;
-    background-color: #081B38;
-    border-radius: 20px;
-    border: 2px solid #FCCE21;
-    font-size: 50px;
-    box-shadow: 3px 3px black;
-    font-family: Impact, Charcoal, sans-serif
-}
-
-#erros {
-    float: left;
-    color: white;
-    width: 100px;
-    margin: 20px 50px;
-    padding: 5px 50px;
-    background-color: #081B38;
-    border-radius: 20px;
-    text-align: center;
-    border: 2px solid #FCCE21;
-    font-size: 50px;
-    box-shadow: 3px 3px black;
-    font-family: Impact, Charcoal, sans-serif
-}
-
-#controle {
-    float: left;
-    color: white;
-    width: 150px;
-    margin: 20px 50px;
-    padding: 5px;
-    background-color: #081B38;
-    border-radius: 20px;
-    text-align: center;
-    border: 2px solid #FCCE21;
-    font-size: 50px;
-    box-shadow: 3px 3px black;
-    font-family: Impact, Charcoal, sans-serif
-}
-
-#controle img:hover {
-    cursor: pointer;
-}
+/*--CARDS--*/
 
 .card {
     width: 150px;
@@ -106,6 +48,11 @@ body {
     position: absolute;
     border-radius: 10px;
     perspective: 600px;
+}
+
+.card:hover {
+    box-shadow: 0 0 20px black;
+    cursor: pointer;
 }
 
 .face {
@@ -134,29 +81,107 @@ body {
     transform: rotateY(0deg);
 }
 
-.card:hover {
-    box-shadow: 0 0 20px black;
+/*-- PAINEL JOGADOR --*/
+
+#jogador {
+    float: left;
+    color: white;
+    width: 200px;
+    margin: 20px 50px;
+    padding: 5px 30px;
+    background-color: #081B38;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid #FCCE21;
+    font-size: 50px;
+    box-shadow: 3px 3px black;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+#tempo {
+    float: left;
+    color: white;
+    margin: 20px 50px;
+    width: 180px;
+    padding: 5px 30px;
+    background-color: #081B38;
+    border-radius: 20px;
+    border: 2px solid #FCCE21;
+    font-size: 50px;
+    box-shadow: 3px 3px black;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+#erros {
+    float: left;
+    color: white;
+    width: 100px;
+    margin: 20px 50px;
+    padding: 5px 50px;
+    background-color: #081B38;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid #FCCE21;
+    font-size: 50px;
+    box-shadow: 3px 3px black;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+#controle {
+    float: left;
+    color: white;
+    width: 150px;
+    margin: 20px 50px;
+    padding: 5px;
+    background-color: #081B38;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid #FCCE21;
+    font-size: 50px;
+    box-shadow: 3px 3px black;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+#controle img:hover {
     cursor: pointer;
 }
 
-#imgmatchsign {
-    position: relative;
+/* MODAL MATCH -- */
+
+div#imgmatchsign {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    visibility: hidden;
+}
+
+div#imgmatchsign img {
+    position: absolute;
+    left: 400px;
     top: 50px;
+    margin: auto;
     transition: top, opacity;
     transition-duration: 5s;
     opacity: 1;
     visibility: hidden;
 }
 
-#modalgameover {
+/* MODAL GAME OVER -- */
+
+div#modalgameover {
     position: absolute;
-    top: 0px;
     width: 100%;
     height: 100%;
+    margin: auto;
     background-color: rgba(0, 0, 0, 0.5);
     visibility: hidden;
 }
 
-#imggameover {
-    margin-top: 100px;
+div#modalgameover img {
+    position: absolute;
+    left: 400px;
+    top: 50px;
+    margin: auto;
+    visibility: hidden;
 }

@@ -1,57 +1,42 @@
-const memoria = new Memoria();
+
+import MemoryGame from "./MemoryGame.mjs";
+import Player from "./Player.mjs";
+import Timer from "./Timer.mjs";
+
+const timer = new Timer();
+const memoryGame = new MemoryGame();
 const player = new Player();
 
-let erros = 0, matches = 0, cartasViradas = [],
-    indiceMusica = segundo = minuto = hora = 0, intervalo;
+let cartasViradas = [];
 
-let modalGameOver = document.getElementById('modalgameover'),
-    cards = document.getElementsByClassName('card'),
-    playerView = document.getElementById('bg-music'),
-    clickSound = document.getElementById('click-sound'),
-    btnMudo = document.getElementById('mudo'),
-    btnProxima = document.getElementById('proxima'),
-    matchSound = document.getElementById("match-sound"),
-    lblHora = document.getElementById("hora"),
-    lblMinuto = document.getElementById("minuto"),
-    lblSegundo = document.getElementById("segundo");
+let modalGameOver = document.getElementById('modalgameover');
+let cards = document.getElementsByClassName('card');
 
-
-function desenhar() {
+function cardPosition() {
     for (let i = 0; i < cards.length; i++) {
         cards[i].style.left = i % 8 * 165 + 'px';
         cards[i].style.top = i < 8 ? 5 + 'px' : 250 + 'px';
     }
 }
 
-function embaralhar(velhoArray) {
-    let novoArray = [];
-
-    while (novoArray.length !== velhoArray.length) {
-        let i = Math.floor((Math.random() * velhoArray.length) + 0);
-        if (novoArray.indexOf(velhoArray[i]) < 0) {
-            novoArray.push(velhoArray[i]);
-        }
-    }
-    return novoArray;
-}
-
-function inicializarCards() {
-    let cartas = [];
-    cartas = embaralhar(memoria.escolherCartas());
+function initializeCards() {
+    let newCards = [];
+    newCards = memoryGame.newCards();
+    console.log(newCards);
     let cardFront, cardBack;
     for (let i = 0; i < cards.length; i++) {
         cardFront = cards[i].querySelector('.front');
         cardBack = cards[i].querySelector('.back');
         cardFront.classList.remove('virar-carta', 'match');
-        cardFront.style.background = "url('" + cartas[i].src + "')";
-        cardFront.setAttribute('id', cartas[i].id);
+        cardFront.style.background = "url('" + newCards[i].src + "')";
+        cardFront.setAttribute('id', newCards[i].id);
         cardBack.classList.remove('virar-carta', 'match');
         cards[i].addEventListener('click', mostrarCarta, false);
     }
 }
 
 function mostrarCarta() {
-    document.getElementById("click-sound").play();
+    player.clickSoundPlay();
     if (cartasViradas.length < 2) {
         var faces = this.getElementsByClassName('face');
         if (faces[0].classList.length > 2) {
@@ -67,13 +52,13 @@ function mostrarCarta() {
                 cartasViradas[1].childNodes[1].classList.toggle('match');
                 cartasViradas[1].childNodes[3].classList.toggle('match');
                 matchMsg();
-                matches++;
+                memoryGame.addMatch();
                 cartasViradas = [];
-                if (matches === 8) {
+                if (memoryGame.matches === 8) {
                     gameOver();
                 }
             } else {
-                erros++;
+                memoryGame.addError();
             }
         }
     } else {
@@ -92,47 +77,12 @@ function gameOver() {
     modalGameOver.addEventListener('click', startGame, false);
 }
 
-function relogio() {
-    if (segundo == 60) {
-        minuto++;
-        segundo = 0;
-    }
-
-    if (minuto == 60) {
-        hora++;
-        segundo = minuto = 0;
-    }
-
-    if (hora < 10) {
-        lblHora.innerHTML = "0" + hora;
-    } else {
-        lblHora.innerHTML = hora;
-    }
-
-    if (segundo < 10) {
-        lblSegundo.innerHTML = "0" + segundo;
-    } else {
-        lblSegundo.innerHTML = segundo;
-    }
-
-    if (minuto < 10) {
-        lblMinuto.innerHTML = "0" + minuto;
-    } else {
-        lblMinuto.innerHTML = minuto;
-    }
-    segundo++;
-}
-
-function parar() {
-    clearInterval(intervalo);
-}
-
 function placar() {
-    document.getElementById('numero-erros').innerHTML = erros;
+    document.getElementById('numero-erros').innerHTML = memoryGame.errors;
 }
 
 function matchMsg() {
-    matchSound.play();
+    player.matchSoundPlay();
     let divMatchSign = document.getElementById('imgmatchsign');
     divMatchSign.style.visibility = 'visible';
     divMatchSign.querySelector('img').style.visibility = 'visible';
@@ -146,40 +96,31 @@ function matchMsg() {
     }, 1500);
 }
 
-function mudo() {
-    if (playerView.volume == 0) {
-        playerView.volume = 1;
-        btnMudo.src = "./img/jogo/on.png";
-    } else {
-        playerView.volume = 0;
-        btnMudo.src = "./img/jogo/off.png";
-    }
+function mute() {
+    player.mute();
 }
 
-function proxima() {
-    playerView.src = player.musicas[indiceMusica].src;
-    playerView.play();
-    indiceMusica++;
-    if (indiceMusica >= player.musicas.length) {
-        indiceMusica = 0;
-    }
-
+function next(){
+    player.next();
 }
 
 function startGame() {
-    matches = erros = segundo = minuto = hora = 0;
+    
     cartasViradas = [];
-    intervalo = window.setInterval(() => relogio(), 1000);
 
-    clickSound.volume = 0.5;
-    btnMudo.addEventListener("click", mudo, false);
-    btnProxima.addEventListener("click", proxima, false);
+    memoryGame.start();
+    timer.start();
+    placar();
 
-    inicializarCards();
+    player.btnMute.addEventListener("click", mute, false);
+    player.btnNext.addEventListener("click", next, false);
+
+    initializeCards();
     modalGameOver.querySelector('img').style.visibility = 'hidden';
     modalGameOver.style.visibility = 'hidden';
     modalGameOver.removeEventListener('click', startGame, false);
+    
 }
 
-desenhar();
+cardPosition();
 startGame();

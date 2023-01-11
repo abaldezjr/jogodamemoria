@@ -98,7 +98,7 @@ div#modalgameover {
     font-family: Impact, Charcoal, sans-serif;
 }
 
-#tempo {
+#timer {
     float: left;
     color: white;
     margin: 20px 50px;
@@ -127,7 +127,7 @@ div#modalgameover {
     font-family: Impact, Charcoal, sans-serif;
 }
 
-#controle {
+#control {
     float: left;
     color: white;
     width: 150px;
@@ -142,7 +142,7 @@ div#modalgameover {
     font-family: Impact, Charcoal, sans-serif;
 }
 
-#controle img:hover {
+#control img:hover {
     cursor: pointer;
 }
 
